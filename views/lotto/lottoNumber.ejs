@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ko">
+   <head>
+   </head>
+<body>
+번호 생성기
+<form  name="lotto">
+     best no cnt: 
+     <select  name="no">
+          <option value="">==선택==</option>
+          <option value="1">1</option>
+          <option value="2">2</option>          
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+          <option value="6">6</option>
+     </select>
+     <br>
+
+     fixed no: <input type="text" name="fixnum">
+     
+</form>
+<button class="ajaxSend">ajaxSend</button>
+
+<script>
+
+     document.querySelector('.ajaxSend').addEventListener('click', function()
+     {
+          var inputdata = document.lotto.no.value;
+          var inputdata2 = document.lotto.fixnum.value;
+          sendAjax('/lotto_number', inputdata, inputdata2);
+     })
+
+     function sendAjax(url, data1, data2)
+     {
+          var data = {'no' : data1, 'fixnum':data2};
+          data = JSON.stringify(data);
+          //console.log(data)
+          var xhr = new XMLHttpRequest();
+          xhr.open('POST', url)
+
+          xhr.setRequestHeader('Content-Type','application/json');
+          xhr.send(data);
+          
+          xhr.addEventListener('load', function(){
+          // 문자열 형식으로 변환
+          var result = JSON.parse(xhr.responseText);
+          // 데이터가 없으면 return 반환
+          console.log("============");
+          console.log(result);
+          //if(result.result !== 'ok') return;
+          // 데이터가 있으면 결과값 표시
+          var  html = result[0] + "," + result[1] + "," + result[2] + "," + result[3] + "," + result[4] + "," + result[5];
+
+          document.querySelector("#result").innerHTML = html;
+          });
+     }
+
+     </script>
+<div id="result"></div>
+</body>
+</html>

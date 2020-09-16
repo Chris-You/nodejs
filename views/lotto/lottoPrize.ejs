@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ko">
+   <head>
+   </head>
+<body>
+search
+<form >
+     date: <input type="text" name="date"><br>
+     no: <input type="text" name="no">
+     
+</form>
+<button class="ajaxSend">ajaxSend</button>
+
+<script>
+
+     document.querySelector('.ajaxSend').addEventListener('click', function()
+     {
+          var inputdata = document.forms[0].elements[0].value;
+          var inputdata2 = document.forms[0].elements[1].value;
+          sendAjax('/lotto_ajax', inputdata, inputdata2);
+     })
+
+     function sendAjax(url, data1, data2)
+     {
+          var data = {'date' : data1, 'no':data2};
+          data = JSON.stringify(data);
+          //console.log(data)
+          var xhr = new XMLHttpRequest();
+          xhr.open('POST', url)
+
+          xhr.setRequestHeader('Content-Type','application/json');
+          xhr.send(data);
+          
+          xhr.addEventListener('load', function(){
+          // 문자열 형식으로 변환
+          var result = JSON.parse(xhr.responseText);
+          // 데이터가 없으면 return 반환
+          console.log("============");
+          console.log(result);
+          //if(result.result !== 'ok') return;
+          // 데이터가 있으면 결과값 표시
+          var  html = result.n1 + "," + result.n2 + "," + result.n3 + "," + result.n4 + "," + result.n5 + "," + result.n6;
+
+          document.querySelector("#result").innerHTML = html;
+          });
+     }
+
+     </script>
+<div id="result"></div>
+</body>
+</html>

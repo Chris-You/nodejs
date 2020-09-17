@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="ko">
    <head>
+     <meta charset="utf-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1">
    </head>
 <body>
 search
@@ -39,7 +41,7 @@ search
           console.log(result);
           //if(result.result !== 'ok') return;
           // 데이터가 있으면 결과값 표시
-          var  html = result.n1 + "," + result.n2 + "," + result.n3 + "," + result.n4 + "," + result.n5 + "," + result.n6;
+          var  html = result.no1 + "," + result.no2 + "," + result.no3 + "," + result.no4 + "," + result.no5 + "," + result.no6;
 
           document.querySelector("#result").innerHTML = html;
           });

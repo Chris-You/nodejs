@@ -6,14 +6,7 @@ const request = require("request");
 
 
 const lottoService = require("../services/lotto-service");
-
-exports.getTest  = function (req,res){
-
-     console.log(req.query);
-     console.log(req.body);
-     console.log("====");
-     res.send("ok");
-};
+const lottoServiceSql = require("../services/lotto-service-sql");
 
 
 exports.getLottoView  = function (req,res){
@@ -49,9 +42,16 @@ exports.getLottoPrize = async function(req, res){
 
      //console.log(querydate);
 
-     var result = await lottoService.getLottoPrize(queryno, querydate);
-     //console.log("====");
-     //console.log(result);
+     var result =  await lottoServiceSql.getLottoPrize(queryno, querydate);
+     console.log("result1");
+     console.log(result);
+  
+     /*
+     var result2 =  await lottoServiceSql.getLottoPrize(queryno, querydate);
+     console.log("result2");
+     console.log(result2);
+*/
+     //console.log(result2);
      res.json(result);
      //res.send(result);
      //res.render('lotto/lottoPrize', { data : result});
@@ -88,12 +88,15 @@ exports.setLottoDB = async function(req,res){
      var start= req.params.start;
      var end= req.params.end;
 
-     var result = await lottoService.setLottoDB(start, end);
+     //var result = await lottoService.setLottoDB(start, end);
+     var result = await lottoServiceSql.setLottoDBSql(start, end);
      //console.log("====");
-     //console.log(result);
+     console.log(result);
 
      res.send("end")           
 }
+
+
 
 
 exports.setLottoDBSort = function(req,res){

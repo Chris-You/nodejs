@@ -16,48 +16,32 @@ var connection = mysql.createConnection({
 connection.connect();
 
 
-exports.getLottoPrize = async function(queryno,querydate){
+exports.getLottoPrize = function(queryno,querydate){
 
-     //var file =  __dirname + '/DB/lottoDB.txt';
-     var file = path.join( __dirname ,  '../DB/lottoDB.txt');
-     //console.log(file)
-     var rl = readline.createInterface({
-          input: fs.createReadStream(file),
-          output: process.stdout,
-          terminal: false
-     });
-     
+     var sql  = "";
+     if(queryno !== undefined  && queryno != "")
+     {
+          sql  = "select * from lotto where no=" +queryno;
+     }
+     else
+     {
+          sql  = "select * from lotto where replace(in_date, '-', '') = '" +querydate + "'";
+     }
+
+
+
      return new Promise(resolve => {
-          var result;
-          rl.on('line', function (line) {
-               //console.log(line) // print the content of the line on each linebreak
-               var arLine = line.split(',');
-               var dbDate = line.substring(0, 10).replace(/-/gi, '');
-               
-               if(queryno !== undefined  && queryno != "")
-               {
-                    if(arLine[47] === queryno)
-                    {
-                         result = getLotto(line);
-                         rl.close();
-                    }
+          connection.query(sql , function(err, rows){
+               if(err) throw err;
+               if(rows[0]){
+                    resolve(rows[0]);
                }
-               else
-               {
-                    if(querydate === dbDate)
-                    {
-                         result = getLotto(line);                      
-                         rl.close();
-                    }
-               }     
-          });
-
-          rl.on('close', _ => {
-               resolve(result)
           });
      });
-     
+
 }
+
+
 
 exports.getLottoRandum = async function(cnt, fixNum){
 
@@ -213,20 +197,11 @@ function insertDB(idx)
                     else
                     {
                          console.log("none response data : " + idx);
-                    }
-
-                    
+                    }                    
                }
                catch(e){
                     console.log(body);
                }
-               //console.log(idx);
-               
-
-
-               // 번호 조회하여 있으면  pass 없으면 insert
-               //console.log(json);               
-
 
           });
 }
@@ -240,62 +215,7 @@ exports.setLottoDBSql = async function(start, end){
      }
 
     console.log("done");
-
-     
 };
-
-
-exports.setLottoDB = async function(start,end){
-    
-          for(var i=start; i<=end; i++)
-          {
-               var idx = i;
-               var geturl ="https://www.dhlottery.co.kr/common.do?method=getLottoNumber&drwNo="+ idx;
-               console.log(geturl);
-               request.get(
-               {
-                    url:geturl
-               }, 
-               function(error, response, body)
-               {
-                    var lottoSummary = new Array(50);
-                    for(var i=1; i<=46; i++)
-                    {
-                         lottoSummary[i] = 0;
-                    }
-     
-                    var json = JSON.parse(body);
-                    
-                    var no1 = parseInt(json.drwtNo1);
-                    var no2=  parseInt(json.drwtNo2);
-                    var no3=  parseInt(json.drwtNo3);
-                    var no4=  parseInt(json.drwtNo4);
-                    var no5=  parseInt(json.drwtNo5);
-                    var no6=  parseInt(json.drwtNo6);
-     
-                    lottoSummary[0] = json.drwNoDate;
-                    lottoSummary[no1] =  1;
-                    lottoSummary[no2] =  1;
-                    lottoSummary[no3] =  1;
-                    lottoSummary[no4] =  1;
-                    lottoSummary[no5] =  1;
-                    lottoSummary[no6] =  1;
-                    lottoSummary[46] = json.bnusNo;
-                    lottoSummary[47] = json.drwNo;
-                    lottoSummary[48] = json.firstPrzwnerCo;
-                    lottoSummary[49] = json.firstWinamnt;
-                    
-                    var file = path.join( __dirname ,  '../DB/lottoDB.txt');
-                    fs.appendFile(file,lottoSummary + "\n",function(err){
-                         if(err){
-                             console.log('Error : '+err);
-                         }
-                         //console.log("write file");
-                     })
-               });
-          }
-     
-}
 
 exports.setLottoSumDB= async function(){
 

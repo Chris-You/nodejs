@@ -44,11 +44,13 @@ router.post("/test", function(req,res){
 */
      
 
-router.get("/lotto", controllers.getLottoView);
+router.get("/", controllers.getLottoView);
+router.get("/search", controllers.getLottoView);
 router.post("/lotto_ajax", controllers.getLottoPrize);
 
-router.get("/lottoview", controllers.getLottoNumView);
-router.post("/lotto_number", controllers.getLottoNum);
+router.get("/view", controllers.getLottoNumView);
+router.post("/random", controllers.getLottoNum);
+
 router.get("/lotto/:id", controllers.getLottoPrizeByApi);
 router.get("/lottoall/:start/:end", controllers.setLottoDB);
 router.get("/lottosort", controllers.setLottoDBSort);

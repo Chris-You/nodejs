@@ -7,16 +7,17 @@ const port = 8001;
 
 app.use(express.static('public'))
 app.use(bodyparser.json());	
-//app.use(bodyparser.urlencoded({exteneded:true}));
+app.use(bodyparser.urlencoded({exteneded:true}));
 
 //app.use("/db/", express.static('lottoDB'));
 
 
 //route value
-var routerlotto = require('./router/lotto');
-var routermain = require('./router/main')(app);
+var routerlotto = require('./router/lotto-router');
+var routermain = require('./router/main-router')(app);
 //var routermain = require('./router/main')(app);
-app.use("/", routerlotto);
+app.use("/lotto", routerlotto);
+
 
 
 

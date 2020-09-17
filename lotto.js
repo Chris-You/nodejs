@@ -2,7 +2,7 @@
 const bodyparser = require("body-parser");
 const express = require("express");
 const app = express();
-const port = 8001;
+const port = 8000;
 
 
 app.use(express.static('public'))
@@ -16,7 +16,7 @@ app.use(bodyparser.json());
 var routerlotto = require('./router/lotto');
 var routermain = require('./router/main')(app);
 //var routermain = require('./router/main')(app);
-app.use("/lotto", routerlotto);
+app.use("/", routerlotto);
 
 
 app.set('view engine', 'ejs');

@@ -1,4 +1,4 @@
-
+// oncoroller.js
 
 const fs = require('fs');
 const readline = require('readline');
@@ -23,7 +23,7 @@ exports.getLottoView  = function (req,res){
 
 exports.getLottoPrize = async function(req, res){
 
-     console.log(req.body);
+     //console.log(req.body);
      var querydate = "";
      
      var queryno = req.body.no;
@@ -51,12 +51,13 @@ exports.getLottoPrize = async function(req, res){
 
      var result = await lottoService.getLottoPrize(queryno, querydate);
      //console.log("====");
-     console.log(result);
+     //console.log(result);
      res.json(result);
      //res.send(result);
      //res.render('lotto/lottoPrize', { data : result});
      
 }
+
 
 exports.getLottoPrizeByApi = function(req, res){
      //var queryno = req.query.id;
@@ -89,7 +90,7 @@ exports.setLottoDB = async function(req,res){
 
      var result = await lottoService.setLottoDB(start, end);
      //console.log("====");
-     console.log(result);
+     //console.log(result);
 
      res.send("end")           
 }
@@ -128,7 +129,7 @@ exports.setLottoSumDB= async function(req,res){
      //전체 통계
      var result = await lottoService.setLottoSumDB();
      //console.log("====");
-     console.log(result);
+     //console.log(result);
      res.send("ok");
 
 }

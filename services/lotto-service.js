@@ -1,12 +1,14 @@
 const fs = require('fs');
 const readline = require('readline');
 const request = require("request");
-
+const path = require("path");
 
 
 exports.getLottoPrize = async function(queryno,querydate){
 
-     var file = __dirname + '/DB/lottoDB.txt';
+     //var file =  __dirname + '/DB/lottoDB.txt';
+     var file = path.join( __dirname ,  '../DB/lottoDB.txt');
+     //console.log(file)
      var rl = readline.createInterface({
           input: fs.createReadStream(file),
           output: process.stdout,
@@ -49,7 +51,8 @@ exports.getLottoRandum = async function(cnt, fixNum){
 
      // 파일조회
 
-     var file =  __dirname + '/DB/lottoSumDB.txt';
+     //var file =  __dirname + '/DB/lottoSumDB.txt';
+     var file = path.join( __dirname ,  '../DB/lottoSumDB.txt');
      var rl = readline.createInterface({
           input: fs.createReadStream(file),
           output: process.stdout,
@@ -65,8 +68,8 @@ exports.getLottoRandum = async function(cnt, fixNum){
                var nums = new Array();
 
                rl.on('line', function (line) {
-                    console.log(line);
-                    console.log("first count:" + cnt);
+                    //console.log(line);
+                    //console.log("first count:" + cnt);
                          var arSum =  line.split(',');
                          for(var i=0; i< arSum.length; i++)
                          {
@@ -104,9 +107,9 @@ exports.getLottoRandum = async function(cnt, fixNum){
           }
           else if( fixNum != "")
           {               
-               console.log(fixNum);
+               //console.log(fixNum);
                     var nums = fixNum.split(',');
-                    console.log(nums.length);
+                    //console.log(nums.length);
                     for(var i=0; i< nums.length; i++)
                     {
                          if(nums[i] != undefined && nums[i]!= "")
@@ -195,7 +198,8 @@ exports.setLottoDB = async function(start,end){
                     lottoSummary[48] = json.firstPrzwnerCo;
                     lottoSummary[49] = json.firstWinamnt;
                     
-                    fs.appendFile(__dirname + '/DB/lottoDB.txt',lottoSummary + "\n",function(err){
+                    var file = path.join( __dirname ,  '../DB/lottoDB.txt');
+                    fs.appendFile(file,lottoSummary + "\n",function(err){
                          if(err){
                              console.log('Error : '+err);
                          }
@@ -208,7 +212,8 @@ exports.setLottoDB = async function(start,end){
 
 exports.setLottoSumDB= async function(){
 
-     var file = __dirname + '/DB/lottoDB.txt';
+     //var file = __dirname + '/DB/lottoDB.txt';
+     var file = path.join( __dirname ,  '../DB/lottoDB.txt');
      var rl = readline.createInterface({
           input: fs.createReadStream(file),
           output: process.stdout,
@@ -235,8 +240,8 @@ exports.setLottoSumDB= async function(){
           }
 
           console.log(idx);
-          
-          fs.writeFileSync(__dirname + '/DB/lottoSumDB.txt',lottoSummary + "\n", 'utf-8',function(err){
+          var fileSum= path.join( __dirname ,  '../DB/lottoSumDB.txt');
+          fs.writeFileSync(fileSum,lottoSummary + "\n", 'utf-8',function(err){
                if(err){
                console.log('Error : '+err);
                }

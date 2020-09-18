@@ -9,9 +9,16 @@ const lottoService = require("../services/lotto-service");
 const lottoServiceSql = require("../services/lotto-service-sql");
 
 
-exports.getLottoView  = function (req,res){
+exports.getLottoView  = async function (req,res){
 
-     res.render('lotto/lottoPrize');
+     var result =  await lottoServiceSql.getLottoDate();
+
+     //var json = {no:result.no};
+     console.log(result)
+     var json = {title:"view", list:JSON.stringify(result)};
+
+     res.render('lotto/lottoPrize', json);
+
 };
 
 exports.getLottoPrize = async function(req, res){

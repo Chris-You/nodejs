@@ -16,6 +16,20 @@ var connection = mysql.createConnection({
 connection.connect();
 
 
+exports.getLottoDate = async function()
+{
+     var sql  = "select  * from lotto order by no desc limit 10;"
+
+     return new Promise(resolve => {
+          connection.query(sql , function(err, rows){
+               if(err) throw err;
+               if(rows[0]){
+                    resolve(rows);
+               }
+          });
+     });
+}
+
 exports.getLottoPrize = function(queryno,querydate){
 
      var sql  = "";
@@ -23,9 +37,12 @@ exports.getLottoPrize = function(queryno,querydate){
      {
           sql  = "select * from lotto where no=" +queryno;
      }
-     else
+     else if(querydate !== undefined  && querydate != "")
      {
-          sql  = "select * from lotto where replace(in_date, '-', '') = '" +querydate + "'";
+          sql  = "select * from lotto where replace(in_date, '-', '') = '" +querydate + "';";
+     }
+     else{
+          sql  = "select  * from lotto order by no desc limit 1;"
      }
 
 

@@ -1,53 +1,114 @@
-<!DOCTYPE html>
-<html lang="ko">
-   <head>
-     <meta charset="utf-8">
-     <meta name="viewport" content="width=device-width, initial-scale=1">
-   </head>
-<body>
-search
-<form >
-     date: <input type="text" name="date"><br>
-     no: <input type="text" name="no">
+
+   <script type="text/javascript">
+
+     $(document).ready(function(){
+               //console.log('<%=title%>');
+               var json = "<%=list%>";
+               json = replacaAll(json, '&#34;', '\"');
+               json = JSON.parse(json);
      
-</form>
-<button class="ajaxSend">ajaxSend</button>
+               showDDL(json);
 
-<script>
+               search();
+          })
+     
+     
+     
+          function showDDL(json)
+          {
+               var ddl="";
+               //console.log(json.length);
+               for (var i=0; i<json.length; i++ )
+               {
+                    var name = json[i].in_date + " , " + json[i].no  +" 회차";
+                    ddl += "<option value='"+ json[i].in_date +"'>"+ name +"</option>";   
+               }
+               //console.log(ddl);
+               $("#date").html(ddl);
+          }
+     
+     
+          function search()
+          {
+               var inputdata = $("#date").val();
+               var inputdata2 = $("#no").val();
 
-     document.querySelector('.ajaxSend').addEventListener('click', function()
-     {
-          var inputdata = document.forms[0].elements[0].value;
-          var inputdata2 = document.forms[0].elements[1].value;
-          sendAjax('/lotto/lotto_ajax', inputdata, inputdata2);
-     })
+               var data = {'date' : inputdata, 'no':inputdata2};
 
-     function sendAjax(url, data1, data2)
-     {
-          var data = {'date' : data1, 'no':data2};
-          data = JSON.stringify(data);
-          //console.log(data)
-          var xhr = new XMLHttpRequest();
-          xhr.open('POST', url)
+               Ajax.Post('/lotto/lotto_ajax', data, searchCallback);
+          }
+     
+          function searchCallback(json)
+          {
+               //console.log(json);
+               $("#result").show();     
+               $("#spndrNo").text(json.no);
+               $("#no1").text(json.no1)
+               $("#no2").text(json.no2)
+               $("#no3").text(json.no3)
+               $("#no4").text(json.no4)
+               $("#no5").text(json.no5)
+               $("#no6").text(json.no6)
+               $("#bonus").text(json.bonus)
 
-          xhr.setRequestHeader('Content-Type','application/json');
-          xhr.send(data);
+               $("#win_count").text(json.win_count)
+               $("#win_amt").text(numberWithCommas(json.win_amt))
+          }
+
+          function setColor(num)
+          {
+               var color = "";
+               if(num <= 10) { color = "" }
+               else if(num > 10 && num <=20 ) {}
+               else if(num > 20 && num <=30 ) {}
+               else if(num > 30 && num <=40 ) {}
+               else if(num > 40 ) {}
+
+               return color;
+          }
+     
+          </script>
+
+
+
+
+<div class="form-inline">
+     <div class="form-group">
+       <label class="sr-only" for="date">추첨일</label>
+       
+       <select name="date" id="date" class="form-control" onchange="search()">
+       </select>
+
+     </div>
+     <div class="form-group">
+       <label class="sr-only" for="no">회차</label>
+       <input type="number" id="no" name="no" class="form-control" palaceholder="회차">
+     </div>
+     <button type="button" class="btn btn-default" id="btnSend" onClick="search();">Search</button>
+   </div>
+
+
+<div style="margin-top: 40px;">
+
+</div>
+
+<div class="panel panel-default" id="result" style="display:none">
+     <div class="panel-heading">
+
+          <strong><span id="spndrNo"></span> 회차 당첨결과</strong><br />
+          당첨인원 : <span id="win_count"></span> 명<br />
+          당첨금 : <span id="win_amt"></span> <br />
           
-          xhr.addEventListener('load', function(){
-          // 문자열 형식으로 변환
-          var result = JSON.parse(xhr.responseText);
-          // 데이터가 없으면 return 반환
-          console.log("============");
-          console.log(result);
-          //if(result.result !== 'ok') return;
-          // 데이터가 있으면 결과값 표시
-          var  html = result.no1 + "," + result.no2 + "," + result.no3 + "," + result.no4 + "," + result.no5 + "," + result.no6;
-
-          document.querySelector("#result").innerHTML = html;
-          });
-     }
-
-     </script>
-<div id="result"></div>
-</body>
-</html>
+     </div>
+     <div class="panel-body">          
+          <span id="no1" class="label label-success" style=background-color:;></span>
+          <span id="no2" class="label label-primary"></span>
+          <span id="no3"  class="label label-success"></span>
+          <span id="no4" class="label label-info"></span>
+          <span id="no5"  class="label label-warning"></span>
+          <span id="no6"  class="label label-danger"></span>
+          +  보너스번호
+          <span id="bonus" class="label label-default"></span>
+          
+     </div>
+   </div>

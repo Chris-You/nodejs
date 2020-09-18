@@ -1,15 +1,28 @@
 
-const bodyparser = require("body-parser");
-const express = require("express");
-const app = express();
-const port = 8001;
+var bodyparser = require("body-parser");
+var path = require("path");
+var express = require('express');
+var ejs = require('ejs');
+var expressLayouts = require('express-ejs-layouts');
 
 
-app.use(express.static('public'))
+var app = express();
+var port = 8001;
+
 app.use(bodyparser.json());	
 app.use(bodyparser.urlencoded({exteneded:true}));
 
 //app.use("/db/", express.static('lottoDB'));
+
+app.use(express.static('public'))
+app.use('/js', express.static(path.join(__dirname,  'node_modules', 'bootstrap', 'dist', 'js')));
+app.use('/css', express.static(path.join(__dirname, 'node_modules', 'bootstrap', 'dist', 'css')));
+
+
+app.set('view engine', 'ejs');
+app.set('views', __dirname + '/views')	;
+app.engine('html', require('ejs').renderFile);
+app.use(expressLayouts);
 
 
 //route value
@@ -19,11 +32,6 @@ var routermain = require('./router/main-router')(app);
 app.use("/lotto", routerlotto);
 
 
-
-
-app.set('view engine', 'ejs');
-app.set('views', __dirname + '/views')	;
-app.engine('html', require('ejs').renderFile);
 
 
 var server =  app.listen(port, function(){

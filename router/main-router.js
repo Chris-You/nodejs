@@ -1,15 +1,4 @@
 var path = require("path");
-var mysql = require("mysql");
-
-var connection = mysql.createConnection({
-     host:"sunwoori.cafe24app.com",
-     port:3306,
-     user:"sunwoori",
-     password:"zaq1XSW@",
-     database:"sunwoori"
-});
-connection.connect();
-
 
 module.exports = function(app) {
 
@@ -18,30 +7,20 @@ module.exports = function(app) {
           next();
      }
 
-     app.use(logger);
-
-
+     //app.use(logger);
      app.get("/",  function (req,res) {
-          res.sendFile(path.join( __dirname ,  "../public/form.html"));
+          //res.sendFile(path.join( __dirname ,  "../views/index.html"));
+          res.render("index");
+          //res.render("common/email.ejs", {"email":"sunwoo@hotmail.com", "name": "sunwoo"});
      });
+
+
+
 
      app.get("/test",  function (req,res) {         
           res.send("ok")
      });
      
-     app.get("/mysql",  function (req,res) {
-          //console.log(connection);
-          var response = {};
-          var query = connection.query("select * from lotto", function(err, rows){
-               if(err) throw err;
-               if(rows[0]){
-                    response = rows;
-               }
-
-               res.json(response);
-          });
-     });
-
 
 
      app.post('/ajax_send_email', function(req,res){

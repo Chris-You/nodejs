@@ -15,7 +15,7 @@ app.use(bodyparser.urlencoded({exteneded:true}));
 //app.use("/db/", express.static('lottoDB'));
 
 app.use(express.static('public'))
-app.use('/js', express.static('public/js'))
+app.use('/js', express.static(path.join(__dirname, 'public', 'js')));
 app.use('/js', express.static(path.join(__dirname,  'node_modules', 'bootstrap', 'dist', 'js')));
 app.use('/css', express.static(path.join(__dirname, 'node_modules', 'bootstrap', 'dist', 'css')));
 

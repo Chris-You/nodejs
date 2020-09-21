@@ -28,10 +28,13 @@ app.use(expressLayouts);
 
 //route value
 var routerlotto = require('./router/lotto-router');
-var routermain = require('./router/main-router')(app);
+var routerShortUrl = require('./router/short-router');
+
 //var routermain = require('./router/main')(app);
 app.use("/lotto", routerlotto);
+app.use("/short", routerShortUrl);
 
+var routermain = require('./router/main-router')(app);
 
 
 

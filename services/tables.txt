@@ -48,3 +48,13 @@ create table lottoStat(
 ,no45 int
 ,reg_dt datetime
 );
+
+
+
+create table shortUrl
+(
+url varchar(10)
+,origin varchar(1000)
+,cnt int
+,reg_dt datetime
+);

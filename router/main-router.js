@@ -21,8 +21,17 @@ module.exports = function(app) {
 
 
 
-     app.get("/test",  function (req,res) {         
-          res.send("ok")
+     app.get("/:short",  function (req,res) {         
+
+          var url = req.params.short;
+
+          // url  요청시 select  target >> redirect >> 
+          // count ++;
+
+          // 없으면 404  리턴
+          res.redirect()
+          res.redirect(200, "naver.co.kr");
+          res.send("ok:" + url);
      });
      
 

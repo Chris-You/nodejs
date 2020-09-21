@@ -1,17 +1,15 @@
 
-<script type="text/javascript">
 
-          $(document).ready(function(){
-               
+<script type="text/javascript" src="/js/map.js"></script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA7wBHl0As6ROmyH-tzHJU31GpFIGb3FAI&callback=googleMap&libraries=&v=weekly" defer></script>
 
-               //search();
-          })
+<div id="map" style="width:400px; height:200px;"></div>
+
+<script>
      
-
-          
-
-
-</script>
-
-
-찾기
+     function googleMap()
+     {
+          mapObj.init("map", 37.5569954, 126.9785898, 15);
+     }
+   </script>

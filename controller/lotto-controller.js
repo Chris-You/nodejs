@@ -8,7 +8,7 @@ const request = require("request");
 const lottoService = require("../services/lotto-service");
 const lottoServiceSql = require("../services/lotto-service-sql");
 
-
+//당첨번호 View
 exports.getLottoView  = async function (req,res){
 
      var result =  await lottoServiceSql.getLottoDate();
@@ -21,6 +21,7 @@ exports.getLottoView  = async function (req,res){
 
 };
 
+//당첨번호 조회
 exports.getLottoPrize = async function(req, res){
 
      //console.log(req.body);
@@ -65,7 +66,67 @@ exports.getLottoPrize = async function(req, res){
      
 }
 
+// 로또 API회차조회하여 저장
+exports.setLottoDB = async function(req,res){
 
+     var start= req.params.start;
+     var end= req.params.end;
+
+     //var result = await lottoService.setLottoDB(start, end);
+     var result = await lottoServiceSql.setLottoDBSql(start, end);
+     //console.log("====");
+     console.log(result);
+
+     res.send("end")           
+}
+
+// 전체 통계 생성
+exports.setLottoSumDB= async function(req,res){
+     //전체 통계
+     var result = await lottoServiceSql.setLottoSumSql();
+     console.log("====controller");
+     console.log(result);
+     res.send("ok");
+
+}
+
+// 추천본호 View
+exports.getLottoNumView  = function (req,res){
+
+     res.render('lotto/lottoNumber');
+};
+
+//추천번호 생성
+exports.getLottoNum = async function(req,res){
+
+     // 상위  몇개까지  가능
+     var cnt = req.body.no;
+     var fixNum = req.body.fixnum;
+
+     if(cnt === undefined || cnt== "") cnt = 0;
+     //console.log(cnt);
+     //console.log(fixNum);
+     var result = await lottoService.getLottoRandum(cnt, fixNum);
+     console.log(result);
+     res.json(result);
+
+}
+
+
+exports.setLottoStat= async function(req,res){
+     //전체 통계
+
+     res.send("ok");
+
+}
+
+// 판매점 찾기 (지도)
+exports.findStore = async function(req,res){
+     res.render('lotto/lottoStore');
+}
+
+
+// API 조회
 exports.getLottoPrizeByApi = function(req, res){
      //var queryno = req.query.id;
      var routeno = req.params.id;
@@ -89,23 +150,7 @@ exports.getLottoPrizeByApi = function(req, res){
      //res.json(response);
 }
 
-// 로또 API회차조회하여 저장
-exports.setLottoDB = async function(req,res){
-
-     var start= req.params.start;
-     var end= req.params.end;
-
-     //var result = await lottoService.setLottoDB(start, end);
-     var result = await lottoServiceSql.setLottoDBSql(start, end);
-     //console.log("====");
-     console.log(result);
-
-     res.send("end")           
-}
-
-
-
-
+// 파일 DB 정렬 (Not Use)
 exports.setLottoDBSort = function(req,res){
 
      var file = '/lottoDB/lottoDB.txt';
@@ -135,37 +180,6 @@ exports.setLottoDBSort = function(req,res){
 
 }
 
-exports.setLottoSumDB= async function(req,res){
-     //전체 통계
-     var result = await lottoService.setLottoSumDB();
-     //console.log("====");
-     //console.log(result);
-     res.send("ok");
-
-}
-
-
-exports.getLottoNumView  = function (req,res){
-
-     res.render('lotto/lottoNumber');
-};
-
-
-exports.getLottoNum = async function(req,res){
-
-     // 상위  몇개까지  가능
-     var cnt = req.body.no;
-     var fixNum = req.body.fixnum;
-
-     if(cnt === undefined || cnt== "") cnt = 0;
-     console.log(cnt);
-     console.log(fixNum);
-     var result = await lottoService.getLottoRandum(cnt, fixNum);
-     console.log(result);
-     res.json(result);
-     //res.render('lotto/lottoRandom', { data : result});
-
-}
 
 function getPreviusWeek(addDay)
 {

@@ -10,11 +10,14 @@ router.post("/lotto_ajax", controllers.getLottoPrize);
 
 router.get("/view", controllers.getLottoNumView);
 router.post("/random", controllers.getLottoNum);
+router.get("/store", controllers.findStore);
 
-router.get("/lotto/:id", controllers.getLottoPrizeByApi);
-router.get("/lottoall/:start/:end", controllers.setLottoDB);
-router.get("/lottosort", controllers.setLottoDBSort);
-router.get("/lottosummary", controllers.setLottoSumDB);
+
+//router.get("/lottosort", controllers.setLottoDBSort);
+router.get("/api/:id", controllers.getLottoPrizeByApi);
+router.get("/data/:start/:end", controllers.setLottoDB);
+router.get("/summary", controllers.setLottoSumDB);
+router.get("/stat", controllers.setLottoStat);
 
 
 module.exports = router;

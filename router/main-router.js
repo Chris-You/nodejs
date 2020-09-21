@@ -10,7 +10,11 @@ module.exports = function(app) {
      //app.use(logger);
      app.get("/",  function (req,res) {
           //res.sendFile(path.join( __dirname ,  "../views/index.html"));
-          res.render("index");
+
+          var admin = req.query.admin;
+          var json = {"adm":admin};
+          
+          res.render("index", json);
           //res.render("common/email.ejs", {"email":"sunwoo@hotmail.com", "name": "sunwoo"});
      });
 

@@ -55,17 +55,7 @@
                $("#win_amt").text(numberWithCommas(json.win_amt))
           }
 
-          function setColor(num)
-          {
-               var color = "";
-               if(num <= 10) { color = "" }
-               else if(num > 10 && num <=20 ) {}
-               else if(num > 20 && num <=30 ) {}
-               else if(num > 30 && num <=40 ) {}
-               else if(num > 40 ) {}
 
-               return color;
-          }
      
           </script>
 
@@ -74,18 +64,18 @@
 
 <div class="form-inline">
      <div class="form-group">
-       <label class="sr-only" for="date">추첨일</label>
-       
-       <select name="date" id="date" class="form-control" onchange="search()">
-       </select>
+          <label class="sr-only" for="date">추첨일</label>
+          
+          <select name="date" id="date" class="form-control" onchange="search()">
+          </select>
 
      </div>
      <div class="form-group">
-       <label class="sr-only" for="no">회차</label>
-       <input type="number" id="no" name="no" class="form-control" palaceholder="회차">
+          <label class="sr-only" for="no">회차</label>
+          <input type="number" id="no" name="no" class="form-control" palaceholder="회차">
      </div>
      <button type="button" class="btn btn-default" id="btnSend" onClick="search();">Search</button>
-   </div>
+</div>
 
 
 <div style="margin-top: 40px;">

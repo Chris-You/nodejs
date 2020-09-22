@@ -5,9 +5,10 @@
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA7wBHl0As6ROmyH-tzHJU31GpFIGb3FAI&callback=googleMap&libraries=&v=weekly" defer></script>
 
 <div id="map" style="width:400px; height:200px;"></div>
+<div id="currLocation"></div>
 
 <script>
-     
+     //https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=37.5569954,126.9785898&radius=1500&keyword=lotto&key=AIzaSyA7wBHl0As6ROmyH-tzHJU31GpFIGb3FAI
      function googleMap()
      {
           mapObj.init("map", 37.5569954, 126.9785898, 15);

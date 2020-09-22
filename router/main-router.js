@@ -1,5 +1,7 @@
 var path = require("path");
 
+const shortController = require("../controller/short-controller");
+
 module.exports = function(app) {
 
      var logger = function(req,res, next){
@@ -19,32 +21,70 @@ module.exports = function(app) {
      });
 
 
+     app.get("/undefined",  function (req,res) {
+          res.send("undefined");          
+     });
 
 
-     app.get("/:short",  function (req,res) {         
 
-          var url = req.params.short;
+     app.get("/:shorturl",  async function (req,res) {         
+
+          var url = req.params.shorturl;
+          //console.log(url.length);
+
+          var lastChar = url.substring(url.length-1, url.length);
+          //console.log(lastChar);
+          if(lastChar == "+")
+          {
+               url = url.substring(0, url.length-1);
+               // 접속 통계
+          }
+
+          var result = await shortController.getOriginUrl(url);
+          //console.log("router");
+          //console.log(result);
+
+          if(result != "" && result.origin != "")
+          {
+               if(lastChar == "+")
+               {
+                    res.send("access cnt:" + result.cnt);
+               }
+               else
+               {
+                    await shortController.setAccessCnt(url);
+
+                    console.log("redirct");
+                    var redirectUrl = result.origin;
+                    if(result.origin.indexOf("http://") == -1 )
+                    {
+                         redirectUrl = "http://" + result.origin
+                    }              
+     
+                    res.redirect(redirectUrl);
+               }
+          }
+          else
+          {
+               console.log("404 Error");
+               res.sendFile(path.join( __dirname ,  "../views/404.html"));
+          }
+     
+
+          
+         
 
           // url  요청시 select  target >> redirect >> 
           // count ++;
 
           // 없으면 404  리턴
-          res.redirect()
-          res.redirect(200, "naver.co.kr");
-          res.send("ok:" + url);
+
+          //res.redirect("http://naver.co.kr");
+          
      });
      
 
 
-     app.post('/ajax_send_email', function(req,res){
-          //console.log(req.body)
-          console.log(req.body.email)
-          res.json(req.body);
-          //res.send("welcome! " + req.body.email)
-          })
-                    
-     
-     
 
 
      app.get("/example",  function (req,res, next) {

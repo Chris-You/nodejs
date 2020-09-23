@@ -1,0 +1,84 @@
+#header {
+
+     color: #d5d5d5;
+     cursor: default;
+     height: 5em;
+     left: 0;
+     line-height: 5em;
+     position: fixed;
+     text-align: right;
+     top: 0;
+     width: 100%;
+     z-index: 10001;
+ }
+
+ #header .inner {
+     max-width: 65em;
+     width: calc(100% - 6em);
+     margin: 0 auto;
+     position: relative;
+ }
+
+ #header .logo {
+     font-family: 'Pacifico', cursive;
+     display: inline-block;
+     height: inherit;
+     left: 0;
+     line-height: inherit;
+     margin: 0;
+     padding: 0;
+     position: absolute;
+     top: 0;
+     color: #e5474b;
+     font-size: 1.75em;
+     text-transform: none;
+     font-weight: normal;
+     padding: 0;
+ }
+
+ #main_banner {
+     
+     color: #f2a3a5;
+     background-image: url(../../image/main.jpg);
+     background-size: cover;
+     background-repeat: no-repeat;
+     background-position: 15% left;
+     text-align: left;
+     height:200px;
+     position: relative;
+     z-index: 9999;
+ }
+
+ #main_banner .inner {
+     max-width: 65em;
+     top :20px;
+     width: calc(100% - 6em);
+     margin: 0 auto;
+     position: relative;
+     z-index: 10000;
+     line-height: 1.5;
+ }
+
+ #main_banner h1 {
+     font-size: 2em;
+     margin: 0 0 1em 0;
+     padding: 0;
+     letter-spacing: 3px;
+     font-weight: 700;
+ }
+
+
+ #footer {
+
+     color: #f2a3a5;
+     padding: 4em 0 2em 0;
+
+ }
+
+ #footer .copyright {
+     font-size: 0.9em;
+     margin: 0 0 2em 0;
+     padding: 0;
+ }
+
+ 

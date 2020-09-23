@@ -99,16 +99,19 @@ exports.getLottoNumView  = function (req,res){
 //추천번호 생성
 exports.getLottoNum = async function(req,res){
 
-     // 상위  몇개까지  가능
-     var cnt = req.body.no;
+     // 상위  몇개까지  가
+     var cnt = req.body.cnt;
+     var no = req.body.no;
      var fixNum = req.body.fixnum;
 
-     if(cnt === undefined || cnt== "") cnt = 0;
+     if(no === undefined || no== "") no = 0;
      //console.log(cnt);
      //console.log(fixNum);
-     var result = await lottoService.getLottoRandum(cnt, fixNum);
-     console.log(result);
-     res.json(result);
+     var result = await lottoServiceSql.getLottoRandom(no, fixNum);
+     
+     var data = {"cnt": cnt, "result": result };
+     console.log(data);
+     res.json(data);
 
 }
 
@@ -120,11 +123,12 @@ exports.setLottoStat= async function(req,res){
 
 }
 
+
+
 // 판매점 찾기 (지도)
 exports.findStore = async function(req,res){
      res.render('lotto/lottoStore');
 }
-
 
 // API 조회
 exports.getLottoPrizeByApi = function(req, res){

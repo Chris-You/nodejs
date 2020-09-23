@@ -3,28 +3,45 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-     <title></title>
+     <title>Short Url..</title>
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
-     <%- include('common/head.ejs') %>
+     <link rel="stylesheet" href="/css/layout.css" type="text/css" />
+     <link rel="stylesheet" href="/css/main.css" type="text/css" />
+
+     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+     <script type="text/javascript" src="/js/ajax.js"></script>
+     <script type="text/javascript" src="/js/common.js"></script>
+     <!-- 합쳐지고 최소화된 최신 CSS -->
+     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+     <!-- 부가적인 테마 -->
+     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+     <!-- 합쳐지고 최소화된 최신 자바스크립트 -->
+     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+
+     <!--구글 애드센스-->
+     <script data-ad-client="ca-pub-1971674194330083" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
 </head>
-<body class="container">
+<body class="container" style="margin-top:80px;">
  
-    <header>
+    <div id="header">
      <%- include('common/header') %>   
-    </header>
+    </div>
  
-<section>
-<%- body %>
-</section>
+     <section> <%- body %> </section>
 
-
-<section>
-     <%- include("common/banner") %>
-</section>
-
-    <footer>
+    <section id="footer">
+     <hr>
      <%- include('common/footer') %>
-    </footer>
+    </section>
  
+     <section id="banner-coupang">
+          <%- include("common/banner") %>
+     </section>
+
+     <section id="divForm"></section>
+
 </body>
 </html>

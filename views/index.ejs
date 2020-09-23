@@ -1,20 +1,56 @@
 
-   <script type="text/javascript">
-     $(document).ready(function(){
+<script type="text/javascript">
 
-          var menu = "<%=adm%>";
-          if(menu == "admin")
+     function search()
+     {
+          var inputdata = $("#url").val();
+
+          var data = {'url' : encodeURI( inputdata)};
+          
+          if(inputdata != "")
           {
-               $("#admmenu").show();
-          }
+               Ajax.Submit("form","post", '/short', data);
 
-     })
+               //Ajax.Post('/short/url', data, searchCallback);
+          }
+          else
+          {
+               alert("입력 바랍니다.");
+          }
+     }
+
+     function searchCallback(json)
+     {
+          var host = document.location.host;
+          $("#result").show();
+          $("#newurl").text( "http://" + host + "/" + json);
+     }
+
 </script>
 
 
-    <main>
-     <div class="jumbotron">
-         <h1>This is great</h1>
-         <p>Welcome to templating using EJS</p>
+ <section id="main_banner">
+     <div class="inner">
+          <h1>Welcom!! <span><br>
+          </span></h1>
+          <ul class="actions">
+               <div class="form-group">
+                    <input type="text" class="form-control" placeholder="long Url..." name="url" id="url">               
+                    <br>
+                    <div class="alert alert-info" style="text-align: center;"id="btnSend" onClick="search();" role="alert">URL 단축하기</div>  
+                  </div>
+          </ul>
      </div>
- </main>
+</section>
+
+<div style="margin-top: 25px;"></div>
+
+<div class="panel panel-default" id="result" style="display:none">
+     <div class="panel-heading">
+          <strong><span id="spndrNo"></span> 단축 URL</strong><br />         
+     </div>
+     <div class="panel-body">          
+          <h3><span id="newurl"  class="label label-info"></span></h3>
+         
+     </div>
+   </div>

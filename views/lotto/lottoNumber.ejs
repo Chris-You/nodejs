@@ -3,29 +3,50 @@
 
           $(document).ready(function(){
                
-
-               //search();
+               var html = "";
+               for(var i=1; i<=45; i++)
+               {
+                    if( i!=1 && i % 10 == 1)
+                    {
+                         html += "<br/>"     ;
+                    }
+                    html += " <input type='checkbox' value='" + i + "' name='numbers'>"+ i +"</checkbox>";
+               }
+               //$("#divChkNum").html (html);
           })
      
 
           function search()
           {
+               $("#resultNumber").html("");
+               var data0 = $("#cnt").val();
                var data1 = $("#no").val();
                var data2= $("#fixnum").val();
-               var data = {'no' : data1, 'fixnum':data2};
+               var data = {'cnt' : data0, 'no' : data1, 'fixnum':data2};
 
-               Ajax.Post('/lotto/random', data, searchCallback);
+               
+               for(var i = 0; i< data0; i++)
+               {
+                    Ajax.Post('/lotto/random', data, searchCallback);
+               }
           }
      
           function searchCallback(json)
           {
                $("#result").show();     
-               $("#no1").text(json[0])
-               $("#no2").text(json[1])
-               $("#no3").text(json[2])
-               $("#no4").text(json[3])
-               $("#no5").text(json[4])
-               $("#no6").text(json[5])
+
+               var html = "";
+               html +="<div class=\"panel-body\">";
+               html +="     <span class=\"label label-default\">"+ json.result[0] +"</span>";
+               html +="     <span class=\"label label-primary\">"+ json.result[1] +"</span>";
+               html +="     <span class=\"label label-success\">"+ json.result[2] +"</span>";
+               html +="     <span class=\"label label-info\">"+ json.result[3] +"</span>";
+               html +="     <span class=\"label label-warning\">"+ json.result[4] +"</span>";
+               html +="     <span class=\"label label-danger\">"+ json.result[5] +"</span>";
+               html +="</div>";
+
+               $("#resultNumber").append(html);
+
           }
 
 
@@ -34,7 +55,21 @@
 
 
 <div class="form-inline">
+
      <div class="form-group">
+          
+          <div id="divChkNum"></div>
+     </div>
+
+     <div class="form-group">
+          <label class="sr-only" for="date">횟수</label>
+          <select  name="cnt" id="cnt" class="form-control" onchange="search()">
+              <option value="1">1</option>
+              <option value="2">2</option>          
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+         </select>
           Best No
           <label class="sr-only" for="date">Best Cnt</label>
            <select  name="no" id="no" class="form-control" onchange="search()">
@@ -47,6 +82,8 @@
                <option value="6">6</option>
           </select>
      </div>
+
+
      <div class="form-group">고정번호(,로 입력)
           <label class="sr-only" for="fixnum">고정번호</label>
           <input type="text" id="fixnum" name="fixnum" class="form-control" palaceholder="고정번호">
@@ -66,12 +103,8 @@
           <strong><span id="spndrNo"></span> 추천번호</strong><br />
           
      </div>
-     <div class="panel-body">          
-          <span id="no1" class="label label-default" style=background-color:;></span>
-          <span id="no2" class="label label-primary"></span>
-          <span id="no3"  class="label label-success"></span>
-          <span id="no4" class="label label-info"></span>
-          <span id="no5"  class="label label-warning"></span>
-          <span id="no6"  class="label label-danger"></span>          
-     </div>
+     <div id="resultNumber"></div>
+     
+
+    
    </div>

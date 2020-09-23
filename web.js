@@ -1,8 +1,7 @@
-
-var bodyparser = require("body-parser");
 var path = require("path");
 var express = require('express');
-var ejs = require('ejs');
+var bodyparser = require("body-parser");
+//var ejs = require('ejs');
 var expressLayouts = require('express-ejs-layouts');
 
 
@@ -16,6 +15,8 @@ app.use(bodyparser.urlencoded({exteneded:true}));
 
 app.use(express.static('public'))
 app.use('/js', express.static(path.join(__dirname, 'public', 'js')));
+app.use('/image', express.static(path.join(__dirname, 'public', 'image')));
+app.use('/css', express.static(path.join(__dirname, 'public', 'css')));
 app.use('/js', express.static(path.join(__dirname,  'node_modules', 'bootstrap', 'dist', 'js')));
 app.use('/css', express.static(path.join(__dirname, 'node_modules', 'bootstrap', 'dist', 'css')));
 
@@ -29,10 +30,16 @@ app.use(expressLayouts);
 //route value
 var routerlotto = require('./router/lotto-router');
 var routerShortUrl = require('./router/short-router');
+var routerAdmin = require('./router/admin-router');
+
+
 
 //var routermain = require('./router/main')(app);
 app.use("/lotto", routerlotto);
 app.use("/short", routerShortUrl);
+app.use("/admin", routerAdmin);
+
+
 
 var routermain = require('./router/main-router')(app);
 

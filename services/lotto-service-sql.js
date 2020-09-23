@@ -59,47 +59,57 @@ exports.getLottoPrize = function(queryno,querydate){
 
 }
 
+function pushNumber(num)
+{
+
+}
+
 //  추천번호
-exports.getLottoRandum = async function(cnt, fixNum){
+exports.getLottoRandom = async function(cnt, fixNum){
 
-     // 파일조회
-
-     //var file =  __dirname + '/DB/lottoSumDB.txt';
-     var file = path.join( __dirname ,  '../DB/lottoSumDB.txt');
-     var rl = readline.createInterface({
-          input: fs.createReadStream(file),
-          output: process.stdout,
-          terminal: false
-     });
-
-     return new Promise (resolve => {
-
+     return new Promise (resolve => {     
+          // 파일조회
           var numbers = new Array();
-
+          // 당첨 순서 
           if(cnt  >  0)
           {
-               var nums = new Array();
-
-               rl.on('line', function (line) {
-                    //console.log(line);
-                    //console.log("first count:" + cnt);
-                         var arSum =  line.split(',');
-                         for(var i=0; i< arSum.length; i++)
+               numbers = new Array();
+               
+               var sql  = "select  * from lottoStat ;";
+               connection.query(sql , function(err, rows){
+                    if(err) throw err;
+                    if(rows[0]){
+                         var nums = new Array();          
+                         for(var i = 1; i<=45; i++)
                          {
-                              var tmpAr = [i+1, arSum[i]];
-                              if( isNumber(arSum[i]) )        
-                              {        
-                                   nums.push(tmpAr );
-                              }
+                              var tmpAr = [i+1, eval('rows[0].no' + i)];
+                              nums.push(tmpAr );
                          }
+                        
                          nums = nums.sort(function(a,b) {
                               return  b[1] - a[1];
                          });
-
+                         //console.log(nums);
                          for(var i=0; i< cnt; i++)
                          {
                               numbers[i] = nums[i][0];
                          }
+                         if(fixNum != "")
+                         {
+                              console.log("fixNum :"+ fixNum);
+                              var nums = fixNum.split(',');
+                              //console.log(nums.length);
+                              for(var i=0; i< nums.length; i++)
+                              {
+                                   if(nums[i] != undefined && nums[i]!= "")
+                                   {
+                                        if( numbers.indexOf(nums[i]) == -1 && numbers.length <= 6)
+                                        {
+                                             numbers.push(parseInt(nums[i]));
+                                        }
+                                   }
+                              }
+                         }                    
 
                          while(numbers.length<6)
                          {
@@ -109,47 +119,27 @@ exports.getLottoRandum = async function(cnt, fixNum){
                                    numbers.push(no1);
                               }
                          }
-                         numbers = numbers.sort(function(a,b) {
-                              return  a-b;
+                         numbers.sort(function(a, b){
+                              return a-b;
                          });
-                         //console.log(numbers)
-               });
-               rl.on('close', _ => {
-                    resolve(numbers)
+
+                         console.log("num cnt:"+ cnt);
+                         resolve(numbers);
+                    }
                });
           }
-          else if( fixNum != "")
-          {               
-               //console.log(fixNum);
-                    var nums = fixNum.split(',');
-                    //console.log(nums.length);
-                    for(var i=0; i< nums.length; i++)
-                    {
-                         if(nums[i] != undefined && nums[i]!= "")
-                         {
-                         numbers.push(parseInt(nums[i]));
-                         }
-                    }
-
-                    while(numbers.length<6)
-                    {
-                         var no1 = Math.floor(Math.random() * 45) + 1;
-                         if(numbers.indexOf(no1) == -1)
-                         {
-                              numbers.push(no1);
-                         }
-                    }
-
-                    numbers.sort(function(a, b){
-                         return a-b;
-                    });
-
-                    //console.log(numbers);
-                    resolve(numbers);
-          }
-          else
+          else if(fixNum != "")
           {
-               console.log("all random");
+
+               var nums = fixNum.split(',');
+               console.log(nums.length);
+               for(var i=0; i< nums.length; i++)
+               {
+                    if(nums[i] != undefined && nums[i]!= "")
+                    {
+                         numbers.push(parseInt(nums[i]));
+                    }
+               }
 
                while(numbers.length<6)
                {
@@ -159,14 +149,28 @@ exports.getLottoRandum = async function(cnt, fixNum){
                          numbers.push(no1);
                     }
                }
-
+               console.log("fix num:"+ fixNum);
+               resolve(numbers);
+          }
+          else
+          {
+               while(numbers.length<6)
+               {
+                    var no1 = Math.floor(Math.random() * 45) + 1;
+                    if(numbers.indexOf(no1) == -1)
+                    {
+                         numbers.push(no1);
+                    }
+               }
                numbers.sort(function(a, b){
                     return a-b;
                });
-
-               //console.log(numbers);
+     
+     
+               console.log("all random");
                resolve(numbers);
           }
+          
      });
 }
 

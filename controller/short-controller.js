@@ -16,10 +16,21 @@ exports.getShortUrl  = async function (req,res){
      var origin_url = req.body.url;
      //console.log(origin_url);
      var result = await service.getShortUrl(origin_url);
-     //console.log(result);
-     res.json(result);
-
+     
+     //res.json(result);
+     var json = {"data": result};
+     console.log(json);
+     res.render('short/view', json);
 };
+
+exports.getShort2Url  = async function (req,res){
+
+     var origin_url = req.body.url;
+     //console.log(origin_url);
+     var result = await service.getShortUrl(origin_url);
+     res.json(result);
+};
+
 
 exports.getOriginUrl  = async function (url){
      

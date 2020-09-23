@@ -21,22 +21,34 @@ exports.getShortUrl = async function(origin_url)
 
      return new Promise(resolve => {
           // randum  select 없으면 등록 후 응답           
-          var url = randomString(7);
 
-          connection.query("select * from shortUrl  where url = '"+ url +"' " , function(err, rows){
+          connection.query("select * from shortUrl  where origin = '"+ origin_url +"' " , function(err, rows){
                if(err) throw err;
-               else{
-                    if( !rows[0]){    
-                         var params = [url, origin_url];
-                         connection.query("insert into shortUrl(url, origin, cnt, reg_dt) values(?, ?, 0, now() );" , params, async function(err, rows){
-                              if(err) throw err;
-                                                 
-                              //console.log("ins shortUrl : "  + url);
-                              resolve(url);         
-                         });
-                    }
+               if( rows[0]){    
+                    resolve(rows[0].url);         
+               }
+               else
+               {
+                    var url = randomString(7);
+
+                    connection.query("select * from shortUrl  where url = '"+ url +"' " , function(err, rows){
+                         if(err) throw err;
+                         else{
+                              if( !rows[0]){    
+                                   var params = [url, origin_url];
+                                   connection.query("insert into shortUrl(url, origin, cnt, reg_dt) values(?, ?, 0, now() );" , params, async function(err, rows){
+                                        if(err) throw err;
+                                                           
+                                        //console.log("ins shortUrl : "  + url);
+                                        resolve(url);         
+                                   });
+                              }
+                         }
+                    });
                }
           });
+
+
      });
 }
 

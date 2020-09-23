@@ -24,6 +24,7 @@
                     ddl += "<option value='"+ json[i].in_date +"'>"+ name +"</option>";   
                }
                //console.log(ddl);
+               ddl += "<option value='other'>기타...</option>";   
                $("#date").html(ddl);
           }
      
@@ -32,6 +33,14 @@
           {
                var inputdata = $("#date").val();
                var inputdata2 = $("#no").val();
+
+               if(inputdata == "other")
+               {
+                    $("#divNo").show();
+               }
+               else{
+                    $("#divNo").hide();
+               }
 
                var data = {'date' : inputdata, 'no':inputdata2};
 
@@ -61,34 +70,34 @@
 
 
 
-
+<h4>Lotto 당첨 결과 조회</h1>
 <div class="form-inline">
      <div class="form-group">
           <label class="sr-only" for="date">추첨일</label>
-          
           <select name="date" id="date" class="form-control" onchange="search()">
           </select>
-
      </div>
-     <div class="form-group">
-          <label class="sr-only" for="no">회차</label>
-          <input type="number" id="no" name="no" class="form-control" palaceholder="회차">
-     </div>
-     <button type="button" class="btn btn-default" id="btnSend" onClick="search();">Search</button>
+     <div  id="divNo" style="display:none;">
+          <div class="form-group">
+               <label class="sr-only" for="no">회차</label>
+               <input type="number" id="no" name="no" class="form-control" placeholder="회차를 입력 후  검색 바랍니다.">
+          </div>
+          <div class="form-group">
+               <button type="button" class="btn btn-default" id="btnSend" onClick="search();">Search</button>
+          </div>          
+     </div>     
 </div>
 
 
-<div style="margin-top: 40px;">
+<div style="margin-top: 30px;">
 
 </div>
 
 <div class="panel panel-default" id="result" style="display:none">
      <div class="panel-heading">
-
-          <strong><span id="spndrNo"></span> 회차 당첨결과</strong><br />
-          당첨인원 : <span id="win_count"></span> 명<br />
-          당첨금 : <span id="win_amt"></span> <br />
-          
+          <strong><span id="spndrNo"></span> 회차 당첨결과</strong><br /><br />
+          당첨인원 : <span id="win_count"></span> 명<br /><br />
+          당첨금 : <span id="win_amt"></span> <br /><br />          
      </div>
      <div class="panel-body">          
           <span id="no1" class="label label-success" style=background-color:;></span>

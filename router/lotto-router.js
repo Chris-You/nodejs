@@ -2,22 +2,15 @@
 var  express = require("express");
 var router = express.Router();
 
-const controllers = require("../controller/lotto-controller");
+const controller = require("../controller/lotto-controller");
 
-router.get("/", controllers.getLottoView);
-router.get("/search", controllers.getLottoView);
-router.post("/lotto_ajax", controllers.getLottoPrize);
+router.get("/", controller.getLottoView);
+router.get("/search", controller.getLottoView);
+router.post("/lotto_ajax", controller.getLottoPrize);
 
-router.get("/view", controllers.getLottoNumView);
-router.post("/random", controllers.getLottoNum);
-router.get("/store", controllers.findStore);
-
-
-//router.get("/lottosort", controllers.setLottoDBSort);
-router.get("/api/:id", controllers.getLottoPrizeByApi);
-router.get("/data/:start/:end", controllers.setLottoDB);
-router.get("/summary", controllers.setLottoSumDB);
-router.get("/stat", controllers.setLottoStat);
-
+router.get("/view", controller.getLottoNumView);
+router.post("/random", controller.getLottoNum);
+router.get("/store", controller.findStore);
+router.get("/stat", controller.setLottoStat);
 
 module.exports = router;

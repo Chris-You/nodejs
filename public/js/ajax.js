@@ -17,5 +17,15 @@ var Ajax = {
      
                callback(result);
           });
+     },
+     Submit: function(name, method,  url, jsonData){
+          var html = "<form name='"+ name +"' action='"+  url +"'method='" + method+ "'>";
+          for (const [key, value] of Object.entries(jsonData)) {
+               //console.log(key, value);
+               html += "<input type='hidden' name='"+ key +"' value='"+ value +"'/><br/>";
+          }
+          html += "</form>";
+          $("#divForm").html(html);
+          eval("document."+ name +".submit();");
      }
 }

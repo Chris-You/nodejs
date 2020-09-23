@@ -1,42 +1,5 @@
 
-<script type="text/javascript">
-
-     function search()
-     {
-          var inputdata = $("#url").val();
-
-          var data = {'url' : inputdata};
-          if(inputdata != "")
-          {
-               Ajax.Post('/short/get', data, searchCallback);
-          }
-          else
-          {
-               alert("입력 바랍니다.");
-          }
-     }
-
-     function searchCallback(json)
-     {
-          var host = document.location.host;
-          $("#result").show();
-          $("#newurl").text( "http://" + host + "/" + json);
-     }
-
-</script>
-
-
-<div class="input-group">
-     <input type="text" class="form-control" placeholder="Search for..." name="url" id="url">
-     <span class="input-group-btn">
-       <button class="btn btn-default" type="button" id="btnSend" onClick="search();">Go!</button>
-     </span>
-   </div><!-- /input-group -->
-
-   
-<div style="margin-top: 40px;"></div>
-
-<div class="panel panel-default" id="result" style="display:none">
+<div class="panel panel-default" id="result" >
      <div class="panel-heading">
           <strong><span id="spndrNo"></span> 단축 URL</strong><br />         
      </div>
@@ -45,3 +8,12 @@
          
      </div>
    </div>
+
+   <script type="text/javascript">
+     var host = document.location.host;
+     var json = "<%=data%>";
+     
+     $("#result").show();
+     $("#newurl").text( "http://" + host + "/" + json);
+
+</script>

@@ -12,11 +12,11 @@ const lottoServiceSql = require("../services/lotto-service-sql");
 exports.getLottoView  = async function (req,res){
 
      var result =  await lottoServiceSql.getLottoDate();
-
+     
      //var json = {no:result.no};
-     console.log(result)
+     //console.log(result)
      var json = {title:"view", list:JSON.stringify(result)};
-
+     
      res.render('lotto/lottoPrize', json);
 
 };

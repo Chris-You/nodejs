@@ -31,6 +31,7 @@ module.exports = function(app) {
 
           var url = req.params.shorturl;
           //console.log(url.length);
+          console.log(" referer: "+req.headers.referer);
 
           var lastChar = url.substring(url.length-1, url.length);
           //console.log(lastChar);
@@ -39,6 +40,7 @@ module.exports = function(app) {
                url = url.substring(0, url.length-1);
                // 접속 통계
           }
+
 
           var result = await shortController.getOriginUrl(url);
           //console.log("router");
@@ -54,7 +56,7 @@ module.exports = function(app) {
                {
                     await shortController.setAccessCnt(url);
 
-                    console.log("redirct");
+                    //console.log("redirct");
                     var redirectUrl = result.origin;
                     if(result.origin.indexOf("http://") == -1 )
                     {

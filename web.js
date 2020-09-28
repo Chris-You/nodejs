@@ -31,23 +31,17 @@ app.use(expressLayouts);
 var routerlotto = require('./router/lotto-router');
 var routerShortUrl = require('./router/short-router');
 var routerAdmin = require('./router/admin-router');
-
-
-
 //var routermain = require('./router/main')(app);
 app.use("/lotto", routerlotto);
 app.use("/short", routerShortUrl);
 app.use("/admin", routerAdmin);
 
-
-
 var routermain = require('./router/main-router')(app);
 
 
 
-var server =  app.listen(port, function(){
-     console.log('App listing as http://localhost:', port);
-     
+app.listen(port, function(){
+     console.log('App listing as http://localhost:', port);    
 });
 
 
